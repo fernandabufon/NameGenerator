@@ -1,15 +1,12 @@
 import streamlit as st
-from helper_langchain import generate_restaurant_name_and_items
+from helper_langchain import generate_name_and_meaning
 
-st.title("Restaurant Name")
+st.title("Name Generator")
 
-cuisine = st.sidebar.selectbox("Pick a Cuisin", ("Brazilian", "Arabic", "Indian", "Mexican", "American"))
+word = st.text_input('Choose a word, and we will find a name that rhymes with it. Only one word, please!', '')
 
 
-if cuisine:
-    response = generate_restaurant_name_and_items(cuisine)
-    st.header(response['restaurant_name'].strip())
-    menu_items = response['menu_items'].strip().split(",")
-    st.write("Menu Items:")
-    for item in menu_items:
-        st.write("-", item)
+if word:
+    response = generate_name_and_meaning(word)
+    st.header(f"The name that rhymes with the word '{word}' is '{response['name'].strip()}'")
+    st.write("Meaning :", response['meaning'].strip())

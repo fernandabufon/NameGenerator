@@ -37,4 +37,4 @@ def generate_name_and_meaning(word):
 
 
 if __name__ == "__main__":
-    print(generate_name_and_meaning("Budy"))
+    print(generate_name_and_meaning("Banana"))
