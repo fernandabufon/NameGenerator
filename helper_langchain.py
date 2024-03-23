@@ -12,7 +12,7 @@ def generate_name_and_meaning(word):
     # Chain 1: name
     prompt_template_name = PromptTemplate(
         input_variables=['word'],
-        template="I want a person name that rhymes with the word {word}. Give me only one name."
+        template="I want a person's name that rhymes with the word {word}. Give me only one name, without any text, directly the name. Notice that it has to be a real person's name."
     )
 
     name_chain = LLMChain(llm=llm, prompt=prompt_template_name, output_key="name")
