@@ -7,34 +7,34 @@ from langchain.chains import SequentialChain
 api_key = ""
 llm = GooglePalm(google_api_key=api_key, temperature=0.6)
 
-def generate_restaurant_name_and_items(cuisine):
-    # Chain 1: restaurant name
+def generate_name_and_meaning(word):
 
+    # Chain 1: name
     prompt_template_name = PromptTemplate(
-        input_variables=['cuisine'],
-        template="I want to open a restaurant for {cuisine} food. Suggest one fancy name for this."
+        input_variables=['word'],
+        template="I want a person name that rhymes with the word {word}. Give me only one name."
     )
 
-    name_chain = LLMChain(llm=llm, prompt=prompt_template_name, output_key="restaurant_name")
+    name_chain = LLMChain(llm=llm, prompt=prompt_template_name, output_key="name")
 
-    # Chain 2: menu items
-    prompt_template_itens = PromptTemplate(
-        input_variables = ['restaurant_name'],
-        template = "Suggest some menu items for {restaurant_name}. Return it as a comma separated list whithout title."
+    # Chain 2: meaning
+    prompt_template_meaning = PromptTemplate(
+        input_variables = ['name'],
+        template = "Give me the meaning of the name {name}"
     )
 
-    food_items_chain = LLMChain(llm=llm, prompt=prompt_template_itens, output_key="menu_items")
+    meaning_chain = LLMChain(llm=llm, prompt=prompt_template_meaning, output_key="meaning")
 
     chain = SequentialChain(
-        chains= [name_chain, food_items_chain],
-        input_variables=['cuisine'],
-        output_variables=['restaurant_name', 'menu_items']
+        chains= [name_chain, meaning_chain],
+        input_variables=['word'],
+        output_variables=['name', 'meaning']
     )
 
-    response = chain({'cuisine':cuisine})
+    response = chain({'word':word})
 
     return response
 
 
 if __name__ == "__main__":
-    print(generate_restaurant_name_and_items("Italian"))
+    print(generate_name_and_meaning("Budy"))
